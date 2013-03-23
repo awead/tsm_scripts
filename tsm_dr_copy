@@ -1,0 +1,4 @@
+#!/bin/bash
+source .credentials
+/usr/bin/dsmadmc -id=${TSMUSER} -pa=${TSMPASS} "backup stg backuppool museumstore maxprocess=1 wait=no"
+exit 0;

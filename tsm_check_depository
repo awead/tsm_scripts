@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+# tsm_check_depository
+#
+# Checks the logs for any failures in the previous night's backup
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+#
+# ---------------------------------------------------------------------------
+
+use strict;
+use DateTime;
+my $dt = DateTime->now()->subtract( days => 1 )->ymd("-");
+
+my @results;
+my $logFile = "/var/log/dsm/archive/" . $dt . ".log";
+open FILE, $logFile or croak $!;
+while (<FILE>) {
+  push @results, grep(/failed/, $_);
+}
+close FILE;
+
+my ($text, $count) = split /:/, $results[0];
+
+if ( ($text =~ /^Total number of objects failed/) and
+     ($count == 0) ) {
+ 
+  print "The depository is safe:\n";
+  print $text . " ---> " . $count . "\n";
+  exit 0;
+
+}
+else {
+  print "Files found that aren't backed up:\n";
+  print join " ", @results;
+  exit 1;
+}
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+LOGFILE=`date +%F`.log
+/usr/bin/dsmc incremental /gpfs/archive/deposit/ -subdir=yes >> /var/log/dsm/archive/${LOGFILE}

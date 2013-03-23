@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+# archive-status
+#
+# Checks on the overall health of the archive
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+#
+# ------------------------------------------------
+
+use strict;
+
+# Query movie files
+system("tsm_query_mov >> /dev/null");
+
+# Check tape backups
+my @results;
+my $movies    = `find /gpfs/archive/prod/bag -name '*.mov' | wc -l`;  chomp $movies;
+my $archpool  = `cat /tmp/tsm-mov-query | grep ARCHPOOL | wc -l`;     chomp $archpool;
+my $spacepool = `cat /tmp/tsm-mov-query | grep SPACEPOOL | wc -l`;    chomp $spacepool;
+my $ironstore = `cat /tmp/tsm-mov-query | grep IRONSTORE | wc -l`;    chomp $ironstore;
+
+unless ( $movies == $archpool ) {
+  push @results, "Not all .mov files have been backed up to the ARCHPOOL tape pool\n";
+}
+unless ( $movies == $spacepool ) {
+  push @results, "Not all .mov files have been migrated to tape (via HSM) in the SPACEPOOL\n";
+}
+unless ( $movies == $ironstore ) {
+  push @results, "Not all .mov files have been copied to the IRONPOOL tape pool\n";
+}
+
+# Check permissions and other things
+my $filePerms = `find /gpfs/archive/prod/bag/ -type f ! -perm 440`;
+if ($filePerms) {
+  push @results, "Files with incorrect permissions:\n$filePerms";
+}
+
+my $dirPerms  = `find /gpfs/archive/prod/bag/ -type d ! -perm 750`;
+if ($dirPerms) {
+  push @results, "Directories with incorrect permissions:\n$dirPerms";
+}
+
+my $oddFiles  = `find /gpfs/archive/prod/bag/ -type f -name ".*"`;
+if ($oddFiles) {
+  push @results, "Odd files:\n$oddFiles";
+}
+
+if (@results) {
+  print join "", @results;
+  exit 1;
+}
+else {
+  print "All files are correctly backedup and duplicated";
+  exit 0;
+}

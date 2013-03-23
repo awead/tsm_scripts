@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source .credentials
+
+OUTFILE="/tmp/tsm-failures"
+COMMAND="q actlog begindate=today-1 search=ANR09"
+
+dsmadmc -id=${TSMUSER} -pa=${TSMPASS} -Q -OUTfile=${OUTFILE} -COMMAdelimited "${COMMAND}" > /dev/null
+RESULTS=`cat ${OUTFILE} | grep FAIL`
+
+if [ -n "${RESULTS}" ]; then
+  echo ${RESULTS}
+  exit 1;
+else
+  exit 0;
+fi

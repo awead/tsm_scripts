@@ -1,0 +1,12 @@
+#!/bin/bash
+COUNT=`find /gpfs/archive/deposit/Backlog -name "*.mov" ! -name "._*" -exec du '{}' \; | awk '$1 > 0' | awk '{$1=""; print $0}' | wc -l`
+LIST="/tmp/migrate_list"
+
+if [ $COUNT -gt 0 ]; then
+  find /gpfs/archive/deposit/Backlog -name "*.mov" ! -name "._*" -exec du '{}' \; | awk '$1 > 0' | awk '{$1=""; print $0}' > /tmp/tmplist
+  sed -e '{ s/^ /"/; s/$/"/ }' /tmp/tmplist > $LIST
+  dsmmigrate -filelist=$LIST
+  /bin/rm -f /tmp/tmplist
+  /bin/rm -f $LIST
+fi
+exit 0;
