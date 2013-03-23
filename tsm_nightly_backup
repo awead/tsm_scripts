@@ -1,3 +1,17 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_nightly_backup
+# Description: Runs tsm client command to backup data from our system backups.
+# All system backups are disk-based, writen to an NFS share found on /backup,
+# but this data must also be backed up to tape for offsite storage and disaster
+# recovery.
+#
+# Results are written to files under /var/log for later processing and
+# verification.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 LOGFILE=`date +%F`.log
 /usr/bin/dsmc incremental /backup >> /var/log/dsm/backup/${LOGFILE}

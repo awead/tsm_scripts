@@ -1,13 +1,12 @@
 #!/usr/bin/perl
-# tsm_check_depository
-#
-# Checks the logs for any failures in the previous night's backup
+# -------------------------------------------------------------------------------
+# Name: tsm_check_depository
+# Description: Checks the logs for any failures in the previous night's backup.
 #
 # Adam Wead
 # Rock and Roll Hall of Fame
 # Library and Archives
-#
-# ---------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 use strict;
 use DateTime;

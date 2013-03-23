@@ -1,3 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_nightly_archive
+# Description: Runs a tsm client command backup the data in our depository.
+# Results are written to files under /var/log for later processing and
+# verification.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 LOGFILE=`date +%F`.log
 /usr/bin/dsmc incremental /gpfs/archive/deposit/ -subdir=yes >> /var/log/dsm/archive/${LOGFILE}

@@ -1,5 +1,13 @@
 #!/bin/bash
-
+# -------------------------------------------------------------------------------
+# Name: tsm_failures
+# Description: Queries the activity log for result codes ANR09 in the previous
+# 24 hours.  This is turn is checked for any failures and reported to stdout.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 source .credentials
 
 OUTFILE="/tmp/tsm-failures"

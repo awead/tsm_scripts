@@ -1,4 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_im_copy
+# Description: Copies data from the ARCHPOOL tape pool to the IRONSTORE tape 
+# pool for disaster recovery.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 source .credentials
 /usr/bin/dsmadmc -id=${TSMUSER} -pa=${TSMPASS} "backup stg archpool ironstore maxprocess=1 wait=no"
 exit 0;

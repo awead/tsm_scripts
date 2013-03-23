@@ -1,4 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_migrate_depository
+# Description: Checks for the presence of any unmigrated .mov files in our
+# backlog and migrates them off to tape.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 COUNT=`find /gpfs/archive/deposit/Backlog -name "*.mov" ! -name "._*" -exec du '{}' \; | awk '$1 > 0' | awk '{$1=""; print $0}' | wc -l`
 LIST="/tmp/migrate_list"
 

@@ -1,12 +1,18 @@
 #!/usr/bin/perl
-# archive-status
+# -------------------------------------------------------------------------------
+# Name: archive-status
+# Description: Checks on the overall health of the archive
 #
-# Checks on the overall health of the archive
+# Esures that all .mov files have been properly backedup to the ARCHPOOL and
+# IRONSTORE tape pools, as well as migrated to the SPACEPOOL and removed from
+# disk.
+#
+# Also verifies permisions on all the files in the archive.
 #
 # Adam Wead
 # Rock and Roll Hall of Fame
-#
-# ------------------------------------------------
+# Library and Archives
+# --------------------------------------------------------------------------------
 
 use strict;
 

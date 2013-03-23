@@ -1,4 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_dr_copy
+# Description: Copies files from the BACKUPPOOL tape pool to the MUSEUMSTORE
+# tape pool for disaster recovery.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 source .credentials
 /usr/bin/dsmadmc -id=${TSMUSER} -pa=${TSMPASS} "backup stg backuppool museumstore maxprocess=1 wait=no"
 exit 0;

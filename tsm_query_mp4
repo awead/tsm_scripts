@@ -1,4 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_query_mp4
+# Description: Runs a SQL command to obtain a list of all our .mp4 files in the 
+# TSM database.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 source .credentials
 dsmadmc -id=${TSMUSER} -pa=${TSMPASS} -OUTfile=/tmp/tsm-mp4-query -COMMAdelimited "select contents.file_name, volumes.STGPOOL_NAME from contents, volumes where contents.filespace_name='/gpfs/archive' and contents.segment!='2/2' and contents.file_name LIKE '/prod/%.mp4' and volumes.volume_name = contents.volume_name order by contents.file_name"
 echo "Results saved to /tmp/tsm-mp4-query"

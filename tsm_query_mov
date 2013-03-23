@@ -1,4 +1,13 @@
 #!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_query_mov
+# Description: Runs a tsm SQL command to obtain a list of all our .mov files.
+# Used in conjuction with archive-status.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
 source .credentials
 dsmadmc -id=${TSMUSER} -pa=${TSMPASS} -OUTfile=/tmp/tsm-mov-query -COMMAdelimited "select contents.file_name, volumes.STGPOOL_NAME from contents, volumes where contents.filespace_name='/gpfs/archive' and contents.segment!='2/2' and contents.file_name LIKE '/prod/%.mov' and volumes.volume_name = contents.volume_name order by contents.file_name"
 echo "Results copied to /tmp/tsm-mov-query"
