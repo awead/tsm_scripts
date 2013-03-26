@@ -1,0 +1,17 @@
+#!/bin/bash
+# -------------------------------------------------------------------------------
+# Name: tsm_backup_prepare
+# Description: Backs up daily prepre scripts that are created during the DRM
+# PREPARE process.
+#
+# Additionally, the required database recovery volumes are compressed, and copied
+# to a backup location along with the associated prepare script.  Each day's 
+# backup will be named with the date of the backup and contain the prepre script
+# along with the required database backup voumes.  Backups will also be rotated
+# on a scheduled basis.
+#
+# Adam Wead
+# Rock and Roll Hall of Fame
+# Library and Archives
+# -------------------------------------------------------------------------------
+
