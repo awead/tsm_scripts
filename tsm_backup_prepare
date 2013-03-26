@@ -15,3 +15,72 @@
 # Library and Archives
 # -------------------------------------------------------------------------------
 
+# -------------------------------------------------------------------------------
+#
+# Config
+#
+# -------------------------------------------------------------------------------
+
+# Directory where the plan scripts are stored
+# i.e. the output from the PREPARE command
+PLANDIR="/opt/tivoli/drm/plans"
+
+# Directory where recovery "volumes" are stored
+RCVRDIR="/opt/tivoli/rdb/recovery"
+
+# Directory where you'd like the data copied
+BKUPDIR="/opt/tivoli/Dropbox"
+
+# Number of days to keep old files
+OLDDAYS=10
+
+# -------------------------------------------------------------------------------
+#
+# Begin main
+#
+# -------------------------------------------------------------------------------
+
+DATE=`date +%Y%m%d`
+
+# explode plan file
+awk -f `which planexpl.awk` ${PLANDIR}/${DATE}.*
+
+echo "Creating dated directory under ${BKUPDIR}"
+mkdir -p ${BKUPDIR}/${DATE}
+
+# get required recovery volumes
+for RVOL in `grep ${RCVRDIR} ${PLANDIR}/RECOVERY.VOLUMES.REQUIRED | /bin/awk '{print tolower($0)}'`
+do
+  echo "Compressing ${RVOL} to ${BKUPDIR}"
+  gzip -c ${RVOL} > ${BKUPDIR}/${DATE}/`basename ${RVOL}`.gz
+done
+
+echo "Copying plan file to ${BKUPDIR}"
+cp ${PLANDIR}/${DATE}.* ${BKUPDIR}/${DATE}
+
+# clean up
+echo "Removing exploded files"
+rm -f ${PLANDIR}/RECOVERY.INSTRUCTIONS.GENERAL
+rm -f ${PLANDIR}/RECOVERY.INSTRUCTIONS.OFFSITE
+rm -f ${PLANDIR}/RECOVERY.INSTRUCTIONS.INSTALL
+rm -f ${PLANDIR}/RECOVERY.INSTRUCTIONS.DATABASE
+rm -f ${PLANDIR}/RECOVERY.INSTRUCTIONS.STGPOOL
+rm -f ${PLANDIR}/RECOVERY.VOLUMES.REQUIRED
+rm -f ${PLANDIR}/RECOVERY.DEVICES.REQUIRED
+rm -f ${PLANDIR}/RECOVERY.SCRIPT.DISASTER.RECOVERY.MODE
+rm -f ${PLANDIR}/RECOVERY.SCRIPT.NORMAL.MODE
+rm -f ${PLANDIR}/DB.STORAGEPATHS
+rm -f ${PLANDIR}/LICENSE.REGISTRATION
+rm -f ${PLANDIR}/ACTIVEDATASTGPOOL.VOLUMES.AVAILABLE
+rm -f ${PLANDIR}/ACTIVEDATASTGPOOL.VOLUMES.DESTROYED
+rm -f ${PLANDIR}/COPYSTGPOOL.VOLUMES.AVAILABLE
+rm -f ${PLANDIR}/COPYSTGPOOL.VOLUMES.DESTROYED
+rm -f ${PLANDIR}/PRIMARY.VOLUMES.DESTROYED
+rm -f ${PLANDIR}/PRIMARY.VOLUMES.REPLACEMENT
+rm -f ${PLANDIR}/STGPOOLS.RESTORE
+rm -f ${PLANDIR}/VOLUME.HISTORY.FILE
+rm -f ${PLANDIR}/DEVICE.CONFIGURATION.FILE
+rm -f ${PLANDIR}/DSMSERV.OPT.FILE
+
+echo "Removing old backups"
+find ${BKUPDIR} -name "`date +%Y`*" -type d -ctime ${OLDDAYS} -exec rm -Rf '{}' \;
