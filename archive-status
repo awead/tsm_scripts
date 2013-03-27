@@ -17,7 +17,7 @@
 use strict;
 
 # Query movie files
-system("tsm_query_mov >> /dev/null");
+system("/opt/bin/tsm_query_mov >> /dev/null");
 
 # Check tape backups
 my @results;
