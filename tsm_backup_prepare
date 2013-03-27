@@ -31,6 +31,9 @@ RCVRDIR="/opt/tivoli/rdb/recovery"
 # Directory where you'd like the data copied
 BKUPDIR="/opt/tivoli/Dropbox"
 
+# Directory where this script is installed
+INSTDIR="/opt/tsm_scripts"
+
 # Number of days to keep old files
 OLDDAYS=10
 
@@ -43,7 +46,7 @@ OLDDAYS=10
 DATE=`date +%Y%m%d`
 
 # explode plan file
-awk -f `which planexpl.awk` ${PLANDIR}/${DATE}.*
+awk -f ${INSTDIR}/planexpl.awk ${PLANDIR}/${DATE}.*
 
 echo "Creating dated directory under ${BKUPDIR}"
 mkdir -p ${BKUPDIR}/${DATE}
