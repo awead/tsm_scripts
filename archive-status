@@ -17,6 +17,7 @@
 use strict;
 
 # Query movie files
+chdir "/opt/bin/";
 system("/opt/bin/tsm_query_mov >> /dev/null");
 
 # Check tape backups
