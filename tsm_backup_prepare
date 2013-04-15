@@ -86,4 +86,4 @@ rm -f ${PLANDIR}/DEVICE.CONFIGURATION.FILE
 rm -f ${PLANDIR}/DSMSERV.OPT.FILE
 
 echo "Removing old backups"
-find ${BKUPDIR} -name "`date +%Y`*" -type d -ctime ${OLDDAYS} -exec rm -Rf '{}' \;
+find ${BKUPDIR} -name "`date +%Y`*" -type d -ctime ${OLDDAYS} | xargs rm -Rf
