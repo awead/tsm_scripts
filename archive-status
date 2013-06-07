@@ -22,10 +22,10 @@ system("/opt/bin/tsm_query_mov >> /dev/null");
 
 # Check tape backups
 my @results;
-my $movies    = `find /gpfs/archive/prod/bag -name '*.mov' | wc -l`;  chomp $movies;
-my $archpool  = `cat /tmp/tsm-mov-query | grep ARCHPOOL | wc -l`;     chomp $archpool;
-my $spacepool = `cat /tmp/tsm-mov-query | grep SPACEPOOL | wc -l`;    chomp $spacepool;
-my $ironstore = `cat /tmp/tsm-mov-query | grep IRONSTORE | wc -l`;    chomp $ironstore;
+my $movies    = `find /gpfs/archive/prod/bag -name '*.mov' | sort | uniq | wc -l`; chomp $movies;
+my $archpool  = `cat /tmp/tsm-mov-query | grep ARCHPOOL    | sort | uniq | wc -l`; chomp $archpool;
+my $spacepool = `cat /tmp/tsm-mov-query | grep SPACEPOOL   | sort | uniq | wc -l`; chomp $spacepool;
+my $ironstore = `cat /tmp/tsm-mov-query | grep IRONSTORE   | sort | uniq | wc -l`; chomp $ironstore;
 
 unless ( $movies == $archpool ) {
   push @results, "Not all .mov files have been backed up to the ARCHPOOL tape pool\n";
